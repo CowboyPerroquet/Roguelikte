@@ -26,7 +26,7 @@ public class DimensionScript : MonoBehaviour
     private void setDimension()
     {
         var prefab = Instantiate(prefabOfSalle);
-     //   PanelForDimension. = prefab.transform.localScale.z.ToString();
+       // PanelForDimension= prefab.transform.localScale.z.ToString();
         longeurMur.text = prefab.transform.localScale.x.ToString();
         hauteurMurArriere.text = prefab.transform.Find("MurArriere").gameObject.transform.localScale.y.ToString();
         hauteurMurAvant.text = prefab.transform.Find("MurAvant").gameObject.transform.localScale.y.ToString();
