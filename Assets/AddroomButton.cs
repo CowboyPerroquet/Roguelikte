@@ -15,11 +15,13 @@ public class AddroomButton : MonoBehaviour
     public GameObject Pannel1;
     public TMP_Dropdown dropdown;
     public List<GameObject> gameobjectlist;
+    static private int idbutton = 0;
 
      void Start()
     {
         gameobjectlist= new List<GameObject>(Resources.LoadAll<GameObject>("Room"));
         foreach(GameObject go in gameobjectlist) { Debug.Log(go.name); }
+        idbutton= idbutton + 1;
        
     }
     public void Click()
@@ -33,15 +35,16 @@ public class AddroomButton : MonoBehaviour
         
         newItem.name = dropdown.name;
         newItem.GetComponentInChildren<TMP_Text>().text = dropdown.GetComponentInChildren<TMP_Text>().text;
-       
 
+        
         newItem.transform.SetParent(m_ContentContainer.transform);
         newItem.transform.localScale = Vector2.one;
         Debug.Log(newItem.GetComponentInChildren<TMP_Text>().text);
-        newItem.AddComponent<DimensionScript>().prefabOfSalle = Instantiate(gameobjectlist.Where(x => x.name == newItem.GetComponentInChildren<TMP_Text>().text).FirstOrDefault());
+        newItem.AddComponent<DimensionScript>().prefabOfSalle = gameobjectlist.Where(x => x.name == newItem.GetComponentInChildren<TMP_Text>().text).FirstOrDefault();
         newItem.GetComponent<DimensionScript>().PanelForDimension = Pannel2;
+        newItem.GetComponent<DimensionScript>().boutonId = idbutton;
         newItem.GetComponent<Button>().onClick.AddListener(() => newItem.GetComponent<DimensionScript>().onClickForDimension());
-
+            
         }
 
 }
