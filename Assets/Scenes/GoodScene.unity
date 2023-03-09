@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 104563032}
   - component: {fileID: 104563034}
   - component: {fileID: 104563033}
+  - component: {fileID: 104563035}
   m_Layer: 5
   m_Name: panelDimension
   m_TagString: Untagged
@@ -350,6 +351,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104563031}
   m_CullTransparentMesh: 1
+--- !u!114 &104563035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104563031}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a04595c303d4c14bbaeb4e2867d8862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabOfSalle: {fileID: 0}
+  PanelForDimension: {fileID: 0}
 --- !u!1 &171927514
 GameObject:
   m_ObjectHideFlags: 0
@@ -7221,7 +7236,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 2
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

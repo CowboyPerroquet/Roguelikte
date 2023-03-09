@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 3663565007600082766}
   - component: {fileID: 7885905090282961243}
   m_Layer: 0
-  m_Name: PlancherSalle1
+  m_Name: Plancher1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
