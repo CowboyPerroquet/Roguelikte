@@ -12,6 +12,8 @@ public class DimensionScript : MonoBehaviour
     public GameObject PanelForDimension;
     public int boutonId;
     private GameObject[] gameobjectlist;
+    private const int distPorte = 1;
+    public int idboutonParent;
 
     static private Dictionary<int, GameObject> dictGameobj = new Dictionary<int, GameObject>();
 
@@ -73,25 +75,28 @@ public class DimensionScript : MonoBehaviour
         }
         // 0: first room (0,0,0)  1 = front , 2 = back , 3 = left, 4 = right 
 
-        if ( directionid == 1 ) {
+        if ( boutonId == 1 ) {
+            var lastroom = dictGameobj.Where(x => x.Key == boutonId).FirstOrDefault().Value;
 
+            float lastRoomCoordonateX = lastroom.transform.localPosition.x;
+            float lastRoomCoordonateZ = lastroom.transform.localPosition.y;
+            float distanceToAdd= lastroom.transform.Find("MurAvant").gameObject.transform.localPosition.x - lastroom.transform.Find("MurArriere").gameObject.transform.localPosition.x;
 
-           
-           
-            
+            var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
+            float distanceforWall = roomtoAdd.transform.Find("MurAvant").gameObject.transform.localPosition.x - roomtoAdd.transform.Find("MurArriere").gameObject.transform.localPosition.x;
+            // front move by - x 
+            float XCoord = lastRoomCoordonateX - Mathf.Abs(distanceToAdd) - Mathf.Abs(distanceforWall) - 1;
 
-//            var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
+            roomtoAdd.transform.position = new Vector3(XCoord , (float) 0.1 , lastRoomCoordonateZ);
+            roomtoAdd.name = prefabOfSalle.name;
 
-           // roomtoAdd.transform.position = new Vector3(0, planeStart.transform.position.y + test, 0);
-           // start.name = prefabOfSalle.name;
-
-          //  dictGameobj.Add(boutonId, start);
+            dictGameobj.Add(boutonId, roomtoAdd);
 
         }
         if (directionid == 2)
         {
 
-
+            
 
         }
         if (directionid == 3)
