@@ -45,6 +45,7 @@ public class AddroomButton : MonoBehaviour
         Debug.Log(newItem.GetComponentInChildren<TMP_Text>().text);
         newItem.AddComponent<DimensionScript>().prefabOfSalle = gameobjectlist.Where(x => x.name == newItem.GetComponentInChildren<TMP_Text>().text).FirstOrDefault();
         newItem.GetComponent<DimensionScript>().PanelForDimension = Pannel2;
+        newItem.GetComponent<DimensionScript>().idboutonParent = dropdown2.GetComponentInChildren<DimensionScript>().idboutonParent;
         newItem.GetComponent<DimensionScript>().boutonId = idbutton;
         newItem.GetComponent<Button>().onClick.AddListener(() => newItem.GetComponent<DimensionScript>().onClickForDimension(idbutton));
         dropdown2.gameObject.SetActive(true);
