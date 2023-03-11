@@ -14,21 +14,24 @@ public class AddroomButton : MonoBehaviour
     public GameObject Pannel2;
     public GameObject Pannel1;
     public TMP_Dropdown dropdown;
+    public TMP_Dropdown Firstroomdropdown;
+    public TMP_Dropdown dropdown2;
     public List<GameObject> gameobjectlist;
     static private int idbutton = 0;
+
 
      void Start()
     {
         gameobjectlist= new List<GameObject>(Resources.LoadAll<GameObject>("Room"));
-        foreach(GameObject go in gameobjectlist) { Debug.Log(go.name); }
+        
         idbutton= idbutton + 1;
        
     }
     public void Click()
     {
-
+        
         gameobjectlist = new List<GameObject>(Resources.LoadAll<GameObject>("Room"));
-        foreach (GameObject go in gameobjectlist) { Debug.Log(go.name); }
+      
 
 
         var newItem = Instantiate(buttonTemplate);
@@ -43,8 +46,9 @@ public class AddroomButton : MonoBehaviour
         newItem.AddComponent<DimensionScript>().prefabOfSalle = gameobjectlist.Where(x => x.name == newItem.GetComponentInChildren<TMP_Text>().text).FirstOrDefault();
         newItem.GetComponent<DimensionScript>().PanelForDimension = Pannel2;
         newItem.GetComponent<DimensionScript>().boutonId = idbutton;
-        newItem.GetComponent<Button>().onClick.AddListener(() => newItem.GetComponent<DimensionScript>().onClickForDimension());
-            
+        newItem.GetComponent<Button>().onClick.AddListener(() => newItem.GetComponent<DimensionScript>().onClickForDimension(idbutton));
+        dropdown2.gameObject.SetActive(true);
+        dropdown.gameObject.SetActive(false);
         }
 
 }
