@@ -76,7 +76,7 @@ public class DimensionScript : MonoBehaviour
         // 0: first room (0,0,0)  1 = front , 2 = back , 3 = left, 4 = right 
 
         if ( boutonId == 1 ) {
-            var lastroom = dictGameobj.Where(x => x.Key == boutonId).FirstOrDefault().Value;
+            var lastroom = dictGameobj.Where(x => x.Key == idboutonParent).FirstOrDefault().Value;
 
             float lastRoomCoordonateX = lastroom.transform.localPosition.x;
             float lastRoomCoordonateZ = lastroom.transform.localPosition.y;
