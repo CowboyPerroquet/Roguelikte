@@ -14,7 +14,7 @@ public class DimensionScript : MonoBehaviour
     private const int distPorte = 1;
     public int idboutonParent;
     public int WhereToAdd;
-    
+
 
     static private Dictionary<int, GameObject> dictGameobj = new Dictionary<int, GameObject>();
 
@@ -25,7 +25,6 @@ public class DimensionScript : MonoBehaviour
         setDimension(boutonId);
 
     }
-
     public void onClickForDimension(int id)
     {
 
@@ -63,7 +62,7 @@ public class DimensionScript : MonoBehaviour
             float test = planeStart.transform.position.y;
             start.transform.position = new Vector3(0, planeStart.transform.position.y + test, 0);
             start.name = prefabOfSalle.name + boutonId;
-            PanelForDimension.GetComponent<ButtonSave>().Rooms = start;
+
 
             dictGameobj.Add(boutonId, start);
 
@@ -81,18 +80,30 @@ public class DimensionScript : MonoBehaviour
 
             float lastRoomCoordonateX = lastroom.transform.localPosition.x;
             float lastRoomCoordonateZ = lastroom.transform.localPosition.z;
-            float distanceToAdd = (lastroom.transform.Find("MurAvant").gameObject.transform.localPosition.x - lastroom.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2;
+            float distanceToAdd = ((lastroom.transform.Find("MurAvant").gameObject.transform.localPosition.x - lastroom.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2) * lastroom.transform.localScale.x;
 
             var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
             float distanceforWall = (roomtoAdd.transform.Find("MurAvant").gameObject.transform.localPosition.x - roomtoAdd.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2;
             // front move by - x 
-            float XCoord = lastRoomCoordonateX + Mathf.Abs(distanceToAdd) + Mathf.Abs(distanceforWall) + 1;
+            float XCoord = lastRoomCoordonateX + Mathf.Abs(distanceToAdd) + Mathf.Abs(distanceforWall) + distPorte;
 
             roomtoAdd.transform.position = new Vector3(XCoord, 0, lastRoomCoordonateZ);
             roomtoAdd.name = prefabOfSalle.name + boutonId;
 
             dictGameobj.Add(boutonId, roomtoAdd);
 
+            roomtoAdd.GetComponent<CollisionTrigger>().PlaceAvailable(WhereToAdd + 1);
+
+            roomtoAdd.transform.Find("MurArriere").GetComponent<MeshRenderer>().enabled = false;
+            roomtoAdd.transform.Find("MurArriere").GetComponent<BoxCollider>().enabled = false;
+
+
+            if (lastroom.transform.Find("MurAvant").gameObject.activeInHierarchy)
+            {
+                lastroom.transform.Find("MurAvant").GetComponent<MeshRenderer>().enabled = false;
+                lastroom.transform.Find("MurAvant").GetComponent<BoxCollider>().enabled = false;
+
+            }
         }
 
         if (WhereToAdd == 2)
@@ -101,19 +112,31 @@ public class DimensionScript : MonoBehaviour
 
             float lastRoomCoordonateX = lastroom.transform.localPosition.x;
             float lastRoomCoordonateZ = lastroom.transform.localPosition.z;
-            float distanceToAdd = (lastroom.transform.Find("MurAvant").gameObject.transform.localPosition.x - lastroom.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2;
+            float distanceToAdd = ((lastroom.transform.Find("MurAvant").gameObject.transform.localPosition.x - lastroom.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2) * lastroom.transform.localScale.x;
 
             var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
             float distanceforWall = (roomtoAdd.transform.Find("MurAvant").gameObject.transform.localPosition.x - roomtoAdd.transform.Find("MurArriere").gameObject.transform.localPosition.x) / 2;
             // front move by - x 
-            float XCoord = lastRoomCoordonateX - Mathf.Abs(distanceToAdd) - Mathf.Abs(distanceforWall) - 1;
+            float XCoord = lastRoomCoordonateX - Mathf.Abs(distanceToAdd) - Mathf.Abs(distanceforWall) - distPorte;
 
             roomtoAdd.transform.position = new Vector3(XCoord, 0, lastRoomCoordonateZ);
             roomtoAdd.name = prefabOfSalle.name + boutonId;
 
             dictGameobj.Add(boutonId, roomtoAdd);
+            //to remove option top ( front = 1 , back = 2 so 2 - 1 = 1; if you had a front room you need to remove to option to add a backroom.
+            //so for wheretoAdd = 2  -> 2-1 , if = 1 ->  1+1 , etc 4 and 3 will be left right , so -1 for 3 and +1 for the 2
+
+            roomtoAdd.transform.Find("MurAvant").GetComponent<BoxCollider>().enabled = false;
+            roomtoAdd.transform.Find("MurAvant").GetComponent<MeshRenderer>().enabled = false;
 
 
+            roomtoAdd.GetComponent<CollisionTrigger>().PlaceAvailable(WhereToAdd - 1);
+            if (lastroom.transform.Find("MurArriere").gameObject.activeInHierarchy)
+            {
+                lastroom.transform.Find("MurArriere").GetComponent<BoxCollider>().enabled = false;
+                lastroom.transform.Find("MurArriere").GetComponent<MeshRenderer>().enabled = false;
+
+            }
         }
 
 
@@ -123,17 +146,27 @@ public class DimensionScript : MonoBehaviour
 
             float lastRoomCoordonateX = lastroom.transform.localPosition.x;
             float lastRoomCoordonateZ = lastroom.transform.localPosition.z;
-            float distanceToAdd = (lastroom.transform.Find("MurDroit").gameObject.transform.localPosition.z - lastroom.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2;
+            float distanceToAdd = ((lastroom.transform.Find("MurDroit").gameObject.transform.localPosition.z - lastroom.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2) * lastroom.transform.localScale.z;
 
             var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
             float distanceforWall = (roomtoAdd.transform.Find("MurDroit").gameObject.transform.localPosition.z - roomtoAdd.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2;
             // front move by - x 
-            float ZCoord = lastRoomCoordonateZ - Mathf.Abs(distanceToAdd) - Mathf.Abs(distanceforWall) - 1;
+            float ZCoord = lastRoomCoordonateZ - Mathf.Abs(distanceToAdd) - Mathf.Abs(distanceforWall) - distPorte;
 
             roomtoAdd.transform.position = new Vector3(lastRoomCoordonateX, 0, ZCoord);
             roomtoAdd.name = prefabOfSalle.name + boutonId;
 
             dictGameobj.Add(boutonId, roomtoAdd);
+            roomtoAdd.GetComponent<CollisionTrigger>().PlaceAvailable(WhereToAdd + 1);
+
+            roomtoAdd.transform.Find("MurDroit").GetComponent<BoxCollider>().enabled = false;
+            roomtoAdd.transform.Find("MurDroit").GetComponent<MeshRenderer>().enabled = false;
+
+            if (lastroom.transform.Find("MurGauche").gameObject.activeInHierarchy)
+            {
+                lastroom.transform.Find("MurGauche").GetComponent<BoxCollider>().enabled = false;
+                lastroom.transform.Find("MurGauche").GetComponent<MeshRenderer>().enabled = false;
+            }
 
         }
 
@@ -144,23 +177,41 @@ public class DimensionScript : MonoBehaviour
 
             float lastRoomCoordonateX = lastroom.transform.localPosition.x;
             float lastRoomCoordonateZ = lastroom.transform.localPosition.z;
-            float distanceToAdd = (lastroom.transform.Find("MurDroit").gameObject.transform.localPosition.z - lastroom.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2;
+            float distanceToAdd = ((lastroom.transform.Find("MurDroit").gameObject.transform.localPosition.z - lastroom.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2) * lastroom.transform.localScale.z;
 
             var roomtoAdd = Instantiate(prefabOfSalle, GameObject.Find("startRoom").transform);
             float distanceforWall = (roomtoAdd.transform.Find("MurDroit").gameObject.transform.localPosition.z - roomtoAdd.transform.Find("MurGauche").gameObject.transform.localPosition.z) / 2;
             // front move by - x 
-            float ZCoord = lastRoomCoordonateZ + Mathf.Abs(distanceToAdd) + Mathf.Abs(distanceforWall) + 1;
+            float ZCoord = lastRoomCoordonateZ + Mathf.Abs(distanceToAdd) + Mathf.Abs(distanceforWall) + distPorte;
 
             roomtoAdd.transform.position = new Vector3(lastRoomCoordonateX, 0, ZCoord);
             roomtoAdd.name = prefabOfSalle.name + boutonId;
 
             dictGameobj.Add(boutonId, roomtoAdd);
+            roomtoAdd.GetComponent<CollisionTrigger>().PlaceAvailable(WhereToAdd - 1);
+
+            roomtoAdd.transform.Find("MurGauche").GetComponent<BoxCollider>().enabled = false;
+
+            roomtoAdd.transform.Find("MurGauche").GetComponent<MeshRenderer>().enabled = false;
+            if (lastroom.transform.Find("MurDroit").gameObject.activeInHierarchy)
+            {
+                lastroom.transform.Find("MurDroit").GetComponent<BoxCollider>().enabled = false;
+                lastroom.transform.Find("MurDroit").GetComponent<MeshRenderer>().enabled = false;
+            }
 
         }
 
 
 
     }
+
+    private void verifyColliderContact(GameObject gameObjectTocheck)
+    {
+
+
+
+    }
+
 
 }
 

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Room
+  - CinemachineTarget
+  - ScaleMoveX
+  - ScaleMoveZ
   layers:
   - Default
   - TransparentFX
